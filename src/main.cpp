@@ -4,6 +4,7 @@
 #include<sstream>
 #include<vector>
 #include"LogEvent.h"
+#include"logAnalyzer.h"
 
 
 std::string eventTypeToString(EventType type)
@@ -51,40 +52,24 @@ int main()
 	LogEvent event{timestampPart, ueID, eventType};
 	events.push_back(event);
        
-    }  
-    for (const auto& event : events) {
-	    std::cout<<event.timestamp<< " " << event.ueId << " " << eventTypeToString(event.eventType) << std::endl;
-    }
+    } 
 
-    int totalHandovers = 0;
-    int successfulHandovers = 0;
-    int failedHandovers = 0;
+    LogAnalyzer analyzer;
 
-    for (const auto& event : events)
-    {
-        if (event.eventType == EventType::HANDOVER_SUCCESS)
-        {
-            ++successfulHandovers;
-            ++totalHandovers;
-        }
-        else if (event.eventType == EventType::HANDOVER_FAILURE)
-        {
-            ++failedHandovers;
-            ++totalHandovers;
-        }
-    }
+    analyzer.analyze(events);
 
-    double successRate = 0.0;
-    if (totalHandovers > 0)
-    {
-        successRate =
-            static_cast<double>(successfulHandovers)
-            / totalHandovers * 100.0;
-    }
+    // Display statistics
+    std::cout << "\nHandover Statistics\n";
+    std::cout << "-------------------\n";
 
-    std::cout << "Total handovers : " << totalHandovers << '\n';
-    std::cout << "Successful      : " << successfulHandovers << '\n';
-    std::cout << "Failed          : " << failedHandovers << '\n';
-    std::cout << "Success rate    : " << successRate << "%\n";
+    std::cout << "Total handovers : "
+              << analyzer.totalHandovers() << '\n';
+
+    std::cout << "Successful      : "
+              << analyzer.successfulHandovers() << '\n';
+
+    std::cout << "Failed          : "
+              << analyzer.failedHandovers() << '\n';
+
     return 0; // Return with success code
 }
