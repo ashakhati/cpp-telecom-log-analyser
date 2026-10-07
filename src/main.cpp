@@ -55,5 +55,36 @@ int main()
     for (const auto& event : events) {
 	    std::cout<<event.timestamp<< " " << event.ueId << " " << eventTypeToString(event.eventType) << std::endl;
     }
+
+    int totalHandovers = 0;
+    int successfulHandovers = 0;
+    int failedHandovers = 0;
+
+    for (const auto& event : events)
+    {
+        if (event.eventType == EventType::HANDOVER_SUCCESS)
+        {
+            ++successfulHandovers;
+            ++totalHandovers;
+        }
+        else if (event.eventType == EventType::HANDOVER_FAILURE)
+        {
+            ++failedHandovers;
+            ++totalHandovers;
+        }
+    }
+
+    double successRate = 0.0;
+    if (totalHandovers > 0)
+    {
+        successRate =
+            static_cast<double>(successfulHandovers)
+            / totalHandovers * 100.0;
+    }
+
+    std::cout << "Total handovers : " << totalHandovers << '\n';
+    std::cout << "Successful      : " << successfulHandovers << '\n';
+    std::cout << "Failed          : " << failedHandovers << '\n';
+    std::cout << "Success rate    : " << successRate << "%\n";
     return 0; // Return with success code
 }
