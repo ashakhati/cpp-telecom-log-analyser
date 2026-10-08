@@ -69,7 +69,12 @@ int main()
               << analyzer.successfulHandovers() << '\n';
 
     std::cout << "Failed          : "
-              << analyzer.failedHandovers() << '\n';
+	    << analyzer.failedHandovers() << '\n';
+
+    std::cout << "\nUE Statistics\n";
+    std::cout << "-------------\n";
+    analyzer.printUEStats();
+
 
     return 0; // Return with success code
 }
